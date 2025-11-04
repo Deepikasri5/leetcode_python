@@ -1,0 +1,58 @@
+def product_except_self(nums):
+    res=[]
+    for i in range(len(nums)):
+        product = 1
+        for j in range(len(nums)):
+            if(i!=j):
+                product = product * nums[j]
+        res.append(product)
+    return res
+
+"""Brute force - O(N2) solution"""
+
+"""O(N) prefix and suffix product"""
+def product_except_self_prefix_suffix(nums):
+    n= len(nums)
+    left = [1] * n
+    right = [1] * n
+    res = [0] * n
+    for i in range(1, n):
+        left[i]=left[i-1]*nums[i-1]
+    for j in range(n-2, -1, -1):
+        right[j]= right[j+1] * nums[j+1]
+    for i in range(n):
+        res[i] = left[i] * right[i] 
+    return res
+
+
+
+"""Todo use only one resultant array to optimise to O(1)
+
+
+
+
+
+
+"""
+
+"""
+| Approach        | Time Complexity | Space Complexity |
+| --------------- | --------------- | ---------------- |
+| Naive (3 loops) | O(n²)           | O(1)             |
+| Prefix+Suffix   | ✅ O(n)          | ❌ O(n)           |
+| Optimized       | ✅ O(n)          | ✅ O(1)\*         |
+
+
+
+
+
+
+"""
+
+
+def main():
+    a=[1, 2, 3, 4]
+    result = product_except_self_prefix_suffix(a)
+    print("result", result)
+
+main()

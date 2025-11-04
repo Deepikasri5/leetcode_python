@@ -1,0 +1,90 @@
+from collections import Counter, defaultdict
+import heapq
+
+def top_k_freq(k, nums):
+    #Have counter and store the frequencies
+    #count is a dict
+    count = Counter(nums)
+    return heapq.nlargest(k, count.keys(), key=count.get)
+
+
+def top_k_freq_tuple(k, nums):
+    count = Counter(nums)
+    t= count.items()
+    q = heapq.nlargest(k, t, key=lambda x: x[1])
+    return [item for item, freq in q]
+
+
+def top_k_bucket(k, nums):
+    count = defaultdict(int)
+    for num in nums:
+        count[num] += 1
+    bucket = [[] for _ in range(len(nums) + 1)]
+    res = []
+    for num, freq in count.items():
+        bucket[freq].append(num)
+    for freq in range(len(bucket) - 1, 0, -1):
+        for num in bucket[freq]:
+            res.append(num)
+            if len(res) == k:
+                return res
+
+
+def main():
+    res = top_k_bucket(2, [1,1,1,2,2,3])
+    print("result", res)
+
+
+main()
+
+
+"""O(M log k)
+
+Python uses a min-heap of size k
+
+It iterates over all M elements (i.e., unique keys) and keeps top k in the heap
+
+Each insertion/removal in heap is log k
+
+So:
+
+Time complexity for heapq.nlargest: O(M log k)
+
+So overall is O(N + M log k)
+since M is < N
+so it is O(N log k)"""
+
+
+"""
+Space Complexity:
+Step 1: Counter(nums)
+Stores frequencies of each unique element → O(M) space
+
+Step 2: heapq.nlargest(...)
+Maintains a heap of size k → O(k) space
+
+Final Output: List of size k
+O(M + k)
+
+O(N)
+| Metric    | Complexity |
+| --------- | ---------- |
+| **Time**  | O(N log k) |
+| **Space** | O(N)       |
+
+"""
+
+
+
+'''Bucket based on frequency
+
+
+TC : O(N)
+SC: O(N)
+'''
+
+
+
+    
+    
+
